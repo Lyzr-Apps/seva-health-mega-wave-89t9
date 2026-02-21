@@ -1,0 +1,17 @@
+{
+  "agent_name": "Seva Health Agent",
+  "agent_type": "json",
+  "accessor": "json",
+  "has_module_outputs": false,
+  "schema": {
+    "message": "string - main conversational response",
+    "intent": "string - emergency|hospital_finder|blood_donate|blood_request|schemes|organ_donation|general|greeting",
+    "emergency_numbers": "array of {name, number, description}",
+    "hospitals": "array of {name, type, address, phone, distance}",
+    "donors": "array of {name, blood_group, city, distance}",
+    "schemes": "array of {name, eligibility, documents, how_to_apply, link}",
+    "organ_donation_info": "object {awareness, pledge_process, official_link}",
+    "consent_required": "boolean",
+    "follow_up": "string"
+  }
+}

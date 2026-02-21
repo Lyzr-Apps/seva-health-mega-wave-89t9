@@ -1,0 +1,96 @@
+{
+  "agent_name": "Seva Health Agent",
+  "agent_id": "69996ce29f3636d6dd80984c",
+  "description": "Empathetic healthcare assistant that helps users find free hospitals, access emergency helplines, register as blood donors (with consent), match blood donors to requests, provide organ donation info, and explain government health schemes. Uses simple, friendly language with Telugu+English mix. Prioritizes speed, safety, consent, and privacy in every interaction.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "message": "string",
+    "intent": "string",
+    "emergency_numbers": [
+      {
+        "name": "string",
+        "number": "string",
+        "description": "string"
+      }
+    ],
+    "hospitals": [
+      {
+        "name": "string",
+        "type": "string",
+        "address": "string",
+        "phone": "string",
+        "distance": "string"
+      }
+    ],
+    "donors": [
+      {
+        "name": "string",
+        "blood_group": "string",
+        "city": "string",
+        "distance": "string"
+      }
+    ],
+    "schemes": [
+      {
+        "name": "string",
+        "eligibility": "string",
+        "documents": "string",
+        "how_to_apply": "string",
+        "link": "string"
+      }
+    ],
+    "organ_donation_info": {
+      "awareness": "string",
+      "pledge_process": "string",
+      "official_link": "string"
+    },
+    "consent_required": "boolean",
+    "follow_up": "string"
+  },
+  "example_response": {
+    "message": "The main conversational response text from the agent",
+    "intent": "Detected intent: emergency, hospital_finder, blood_donate, blood_request, schemes, organ_donation, general, greeting",
+    "emergency_numbers": [
+      {
+        "name": "sample string",
+        "number": "sample string",
+        "description": "sample string"
+      }
+    ],
+    "hospitals": [
+      {
+        "name": "sample string",
+        "type": "sample string",
+        "address": "sample string",
+        "phone": "sample string",
+        "distance": "sample string"
+      }
+    ],
+    "donors": [
+      {
+        "name": "sample string",
+        "blood_group": "sample string",
+        "city": "sample string",
+        "distance": "sample string"
+      }
+    ],
+    "schemes": [
+      {
+        "name": "sample string",
+        "eligibility": "sample string",
+        "documents": "sample string",
+        "how_to_apply": "sample string",
+        "link": "sample string"
+      }
+    ],
+    "organ_donation_info": {
+      "awareness": "sample string",
+      "pledge_process": "sample string",
+      "official_link": "sample string"
+    },
+    "consent_required": false,
+    "follow_up": "Follow-up question or prompt for the user"
+  }
+}
