@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
@@ -233,7 +232,7 @@ function parseAgentResponse(apiResult: any): SevaHealthResponse {
   if (apiResult?.response?.result) {
     const innerResult = apiResult.response.result
     if (typeof innerResult === 'string') {
-      try { data = JSON.parse(innerResult) } catch { data = null }
+      try { data = JSON.parse(innerResult) } catch (_e) { data = null }
     } else if (typeof innerResult === 'object') {
       data = innerResult
     }
@@ -243,7 +242,7 @@ function parseAgentResponse(apiResult: any): SevaHealthResponse {
   if (!data && apiResult?.response?.message) {
     const msg = apiResult.response.message
     if (typeof msg === 'string' && msg.trim().startsWith('{')) {
-      try { data = JSON.parse(msg) } catch { data = null }
+      try { data = JSON.parse(msg) } catch (_e) { data = null }
     }
   }
 
@@ -262,7 +261,7 @@ function parseAgentResponse(apiResult: any): SevaHealthResponse {
   // Step 5: Try raw_response field
   if (!data && apiResult?.raw_response) {
     if (typeof apiResult.raw_response === 'string') {
-      try { data = JSON.parse(apiResult.raw_response) } catch { data = null }
+      try { data = JSON.parse(apiResult.raw_response) } catch (_e) { data = null }
     }
   }
 
@@ -273,7 +272,7 @@ function parseAgentResponse(apiResult: any): SevaHealthResponse {
       if (innerParsed?.intent || innerParsed?.message) {
         data = innerParsed
       }
-    } catch { /* keep data as is */ }
+    } catch (_e) { /* keep data as is */ }
   }
 
   // Step 7: If nothing worked, use the plain text message as fallback
@@ -284,7 +283,7 @@ function parseAgentResponse(apiResult: any): SevaHealthResponse {
 
   // If data is still a string, try parsing once more
   if (typeof data === 'string') {
-    try { data = JSON.parse(data) } catch {
+    try { data = JSON.parse(data) } catch (_e) {
       return { ...fallback, message: data }
     }
   }
@@ -346,9 +345,9 @@ function renderMarkdown(text: string) {
 }
 
 // ============================================================
-// ERROR BOUNDARY
+// PAGE ERROR BOUNDARY
 // ============================================================
-class ErrorBoundary extends React.Component<
+class PageErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean; error: string }
 > {
@@ -790,14 +789,14 @@ function DonorProfileView({ profile, setProfile, onBack }: {
   const [showOptOut, setShowOptOut] = useState(false)
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center gap-3 p-4 bg-card/80 backdrop-blur-md border-b border-border/60">
+    <div className="flex flex-col min-h-screen">
+      <div className="flex items-center gap-3 p-4 bg-card/80 backdrop-blur-md border-b border-border/60 sticky top-0 z-10">
         <Button variant="ghost" size="sm" onClick={onBack} className="rounded-xl">
           <FaArrowLeft className="w-4 h-4" />
         </Button>
         <h2 className="text-lg font-semibold tracking-tight">Donor Profile</h2>
       </div>
-      <ScrollArea className="flex-1">
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-6 pb-8">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
@@ -934,7 +933,7 @@ function DonorProfileView({ profile, setProfile, onBack }: {
             </Card>
           )}
         </div>
-      </ScrollArea>
+      </div>
     </div>
   )
 }
@@ -1091,8 +1090,8 @@ export default function Page() {
   const displayedMessages = messages
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen bg-background text-foreground flex flex-col" style={{ background: 'linear-gradient(135deg, hsl(120 25% 96%) 0%, hsl(140 30% 94%) 35%, hsl(160 25% 95%) 70%, hsl(100 20% 96%) 100%)' }}>
+    <PageErrorBoundary>
+      <div className="min-h-screen bg-background text-foreground flex flex-col" style={{ background: 'linear-gradient(135deg, hsl(120, 25%, 96%) 0%, hsl(140, 30%, 94%) 35%, hsl(160, 25%, 95%) 70%, hsl(100, 20%, 96%) 100%)' }}>
         {currentView === 'profile' ? (
           <DonorProfileView
             profile={donorProfile}
@@ -1219,6 +1218,6 @@ export default function Page() {
           </>
         )}
       </div>
-    </ErrorBoundary>
+    </PageErrorBoundary>
   )
 }
